@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio | Verena Welisda Tan Pires Hale</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050714;
+            --card-bg: rgba(15, 23, 42, 0.75);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.4);
+            --accent: #60a5fa;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Space Canvas */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #02040a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        
+        .lightning-bolt {
+            width: 40px;
+            height: 60px;
+            background: #3b82f6;
+            clip-path: polygon(50% 0%, 0% 60%, 40% 60%, 20% 100%, 100% 40%, 60% 40%);
+            box-shadow: 0 0 30px #3b82f6, 0 0 60px #60a5fa;
+            animation: flash 1.2s infinite alternate;
+        }
+
+        @keyframes flash {
+            0% { opacity: 0.3; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 15px #60a5fa); }
+        }
+
+        .loader-text {
+            margin-top: 25px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #fff, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .loader-bar-container {
+            width: 200px;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .loader-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #93c5fd);
+            transition: width 0.1s;
+        }
+
+        .loader-percent {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        /* Floating Navbar */
+        .navbar-container {
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: max-content;
+        }
+
+        .navbar {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            padding: 8px 16px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-right: 10px;
+            border-right: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .nav-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .nav-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+        }
+
+        .nav-link a {
+            color: var(--text-sub);
+            text-decoration: none;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .nav-link a:hover, .nav-link a.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-hire {
+            background: #ffffff;
+            color: #000;
+            padding: 7px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-hire:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255,255,255,0.4);
+        }
+
+        /* Sections */
+        section {
+            padding: 120px 20px 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Hero */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .hero-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .badge-tag {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px var(--primary-glow);
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--primary-glow);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Music Widget */
+        .music-widget {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 25px;
+        }
+
+        .widget-header {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .player-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .album-art {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+        }
+
+        .track-info h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .track-info p {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+        }
+
+        .play-btn {
+            margin-left: auto;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #fff;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        /* About Section (Foto Transisi Hover Jas ke SMA) */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .profile-img-box {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            height: 420px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .profile-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .img-jas {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .img-sma {
+            opacity: 0;
+            z-index: 1;
+            transform: scale(1.05);
+        }
+
+        .profile-img-box:hover .img-jas {
+            opacity: 0;
+        }
+
+        .profile-img-box:hover .img-sma {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .profile-overlay-badge {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 10px 18px;
+            border-radius: 14px;
+            border: 1px solid var(--card-border);
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 3;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 18px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            margin-top: 5px;
+        }
+
+        .timeline-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 25px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            padding-bottom: 15px;
+            border-left: 2px solid rgba(59, 130, 246, 0.3);
+            padding-left: 20px;
+            position: relative;
+            margin-left: 10px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .timeline-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .timeline-sub {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+        }
+
+        /* Skills */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .skill-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        .skill-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .skill-desc {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: rgba(255,255,255,0.05);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: var(--text-sub);
+        }
+
+        /* Achievements Tabs */
+        .tabs-header {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-sub);
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .tab-content {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .tab-content.active {
+            display: grid;
+        }
+
+        .card-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .card-badge {
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 0.82rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 12px;
+        }
+
+        .btn-view-cert {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #60a5fa;
+            padding: 5px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-view-cert:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* Tech Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 15px;
+        }
+
+        .tech-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px 10px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .tech-item:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+
+        .tech-item i {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .contact-form, .guestbook-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-sub);
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--card-border);
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--card-border);
+            padding: 12px 20px;
+            border-radius: 14px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: 0.3s;
+        }
+
+        .social-btn:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent);
+        }
+
+        /* Modal View Sertifikat */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 800px;
+            max-height: 90vh;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 75vh;
+            border-radius: 12px;
+            object-fit: contain;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 2rem; }
+            .nav-name { display: none; }
+            .navbar { padding: 6px 12px; gap: 8px; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas Bintang -->
+    <canvas id="space-canvas"></canvas>
+
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="lightning-bolt"></div>
+        <div class="loader-text">PORTFOLIO</div>
+        <div class="loader-bar-container">
+            <div class="loader-bar" id="loader-bar"></div>
+        </div>
+        <div class="loader-percent" id="loader-percent">0%</div>
+    </div>
+
+    <!-- Floating Navbar -->
+    <div class="navbar-container">
+        <nav class="navbar">
+            <div class="nav-profile">
+                <div class="nav-avatar">V</div>
+                <span class="nav-name">Verena Hale</span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-link"><a href="#home" class="active">Home</a></li>
+                <li class="nav-link"><a href="#about">About</a></li>
+                <li class="nav-link"><a href="#skills">Skills</a></li>
+                <li class="nav-link"><a href="#achievements">Portfolio</a></li>
+                <li class="nav-link"><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#contact" class="btn-hire">Hire Me</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="hero-grid">
+            <div class="hero-card">
+                <span class="badge-tag">Sistem Informasi • UNESA</span>
+                <h1 class="hero-title">Turning Ideas Into Reality</h1>
+                <p class="hero-desc">
+                    Halo! Saya <b>Verena Welisda Tan Pires Hale</b>, mahasiswa S1 Sistem Informasi Universitas Negeri Surabaya (Jalur SNBP). Berpengalaman dalam manajemen kepemimpinan, komunikasi publik, serta antusias dalam analisis bisnis dan teknologi digital.
+                </p>
+                <div class="hero-btns">
+                    <a href="#achievements" class="btn-primary"><i class="fas fa-folder-open"></i> Lihat Portofolio</a>
+                    <a href="#contact" class="btn-secondary">Hubungi Saya</a>
+                </div>
+            </div>
+
+            <!-- Music Widget -->
+            <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/7dunjLTVr19r07ehfBBJI8?utm_source=generator&theme=0&si=a00128d82b624f7f" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="about-grid">
+            <div class="profile-img-box">
+                <img src="foto-jas.jpeg" alt="Verena Jas Almamater" class="img-jas" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80'">
+                <img src="foto-sma.jpeg" alt="Verena Seragam SMA" class="img-sma" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80'">
+                <div class="profile-overlay-badge">
+                    NIM: 26051214060
+                </div>
+            </div>
+            <div>
+                <span class="badge-tag">ABOUT ME</span>
+                <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 15px;">Problem Solver & Digital Enthusiast</h2>
+                <p style="color: var(--text-sub); line-height: 1.6; font-size: 0.95rem;">
+                    Mahasiswa Sistem Informasi UNESA dengan rekam jejak akademik yang kuat dan pengalaman aktif di bidang kepemimpinan organisasi. Memiliki minat utama pada analisis bisnis perusahaan, manajemen administrasi, serta pengembangan perangkat lunak antarmuka. <i>(Sentuh foto untuk melihat versi SMA)</i>
+                </p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-num">3+</div>
+                        <div class="stat-label">Tahun Organisasi</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">8+</div>
+                        <div class="stat-label">Sertifikat & Penghargaan</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">Top 4</div>
+                        <div class="stat-label">Peringkat Sekolah</div>
+                    </div>
+                </div>
+
+                <div class="timeline-box">
+                    <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 15px;"><i class="fas fa-graduation-cap"></i> Pendidikan & Pengalaman Utama</h3>
+                    <div class="timeline-item">
+                        <div>
+                            <div class="timeline-title">Universitas Negeri Surabaya (UNESA)</div>
+                            <div class="timeline-sub">S1 Sistem Informasi — Jalur SNBP (2026 - Sekarang)</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div>
+                            <div class="timeline-title">Sekretaris I OSIS SMAK Suria Atambua</div>
+                            <div class="timeline-sub">Manajemen Administrasi & Notulensi (2024 - 2025)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section id="skills">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <span class="badge-tag">MY CAPABILITIES</span>
+            <h2 style="font-size: 2.2rem; font-weight: 800;">What I Can Do</h2>
+        </div>
+
+        <div class="skills-container">
+            <div class="skill-card">
+                <div class="skill-icon"><i class="fas fa-sitemap"></i></div>
+                <h3 class="skill-title">Business & Systems Analysis</h3>
+                <p class="skill-desc">Kemampuan menganalisis kebutuhan sistem bisnis, perancangan alur kerja digital, dan dokumentasi administrasi terstruktur.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Business Flow</span>
+                    <span class="skill-tag">Documentation</span>
+                    <span class="skill-tag">Administration</span>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon"><i class="fas fa-users-cog"></i></div>
+                <h3 class="skill-title">Leadership & Communication</h3>
+                <p class="skill-desc">Teruji dalam memimpin kepengurusan OSIS, manajemen waktu, kerja sama tim, dan perwakilan rapat resmi sekolah.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Leadership</span>
+                    <span class="skill-tag">Public Speaking</span>
+                    <span class="skill-tag">Teamwork</span>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon"><i class="fas fa-code"></i></div>
+                <h3 class="skill-title">Digital Tools & Creative Work</h3>
+                <p class="skill-desc">Penguasaan perangkat perkantoran, desain grafis dasar, penulisan jurnalistik, serta pengeditan konten kreatif.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">MS Office</span>
+                    <span class="skill-tag">Canva</span>
+                    <span class="skill-tag">CapCut</span>
+                    <span class="skill-tag">Jurnalistik</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements & Portfolio -->
+    <section id="achievements">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <span class="badge-tag">PORTFOLIO & CREDENTIALS</span>
+            <h2 style="font-size: 2.2rem; font-weight: 800;">Achievement Gallery</h2>
+        </div>
+
+        <div class="tabs-header">
+            <button class="tab-btn active" onclick="switchTab('cert-tab', this)"><i class="fas fa-certificate"></i> Certificates</button>
+            <button class="tab-btn" onclick="switchTab('awards-tab', this)"><i class="fas fa-trophy"></i> Awards</button>
+            <button class="tab-btn" onclick="switchTab('tech-tab', this)"><i class="fas fa-laptop-code"></i> Tech Stack</button>
+        </div>
+
+        <!-- Tab Certificates -->
+        <div id="cert-tab" class="tab-content active">
+            <div class="card-item">
+                <span class="card-badge">GOOGLE FOR EDUCATION • 2026</span>
+                <h3 class="card-title">Siswa Tersertifikasi Gemini</h3>
+                <p class="card-desc">Sertifikasi kualifikasi resmi penggunaan AI Google di lingkungan pendidikan.</p>
+                <div class="card-footer">
+                    <span>Berlaku s.d. 2029</span>
+                    <button class="btn-view-cert" onclick="openModal('cert-gemini.jpeg')">Lihat Bukti</button>
+                </div>
+            </div>
+
+            <div class="card-item">
+                <span class="card-badge">DBS FOUNDATION & PLAN INDONESIA</span>
+                <h3 class="card-title">Financial Literacy & Soft Skill (You RISE)</h3>
+                <p class="card-desc">Pelatihan peningkatan literasi keuangan dan kesiapan soft skill pemuda.</p>
+                <div class="card-footer">
+                    <span>14 Agustus 2026</span>
+                    <button class="btn-view-cert" onclick="openModal('cert-dbs.jpeg')">Lihat Bukti</button>
+                </div>
+            </div>
+
+            <div class="card-item">
+                <span class="card-badge">SMAK SURIA ATAMBUA</span>
+                <h3 class="card-title">Latihan Kepemimpinan (LKTD)</h3>
+                <p class="card-desc">Peserta aktif pelatihan kepemimpinan dasar organisasi tingkat SMA.</p>
+                <div class="card-footer">
+                    <span>5 Juli 2024</span>
+                    <button class="btn-view-cert" onclick="openModal('cert-lktd.jpeg')">Lihat Bukti</button>
+                </div>
+            </div>
+            
+            <div class="card-item">
+                <span class="card-badge">SMAK SURIA ATAMBUA</span>
+                <h3 class="card-title">Predikat Sangat Baik - Ekstrakurikuler Jurnalistik</h3>
+                <p class="card-desc">Menguasai penulisan berita, cerpen, karya ilmiah, wawancara, dan content creator.</p>
+                <div class="card-footer">
+                    <span>1 Desember 2025</span>
+                    <button class="btn-view-cert" onclick="openModal('cert-jurnalistik.jpeg')">Lihat Bukti</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Awards -->
+        <div id="awards-tab" class="tab-content">
+            <div class="card-item">
+                <span class="card-badge">PRESTASI AKADEMIK</span>
+                <h3 class="card-title">Juara 1 Kelas XII ALAM 3</h3>
+                <p class="card-desc">Juara 1 Ujian Semester Ganjil TA 2025/2026 SMAK Suria Atambua.</p>
+                <div class="card-footer">
+                    <span>Desember 2025</span>
+                    <button class="btn-view-cert" onclick="openModal('cert-juara4.jpeg')">Lihat Bukti</button>
+                </div>
+            </div>
+
+            <div class="card-item">
+                <span class="card-badge">PRESTASI PARALEL</span>
+                <h3 class="card-title">Peringkat 4 dari 1.300+ Siswa</h3>
+                <p class="card-desc">Peringkat 4 dari 10 Besar Sekolah & Konsisten 3 Besar Kelas 3 Tahun Berturut-turut.</p>
+                <div class="card-footer">
+                    <span>Mei 2026</span>
+                    <button class="btn-view-cert" onclick="openModal('cert-peringkat.jpeg')">Lihat Bukti</button>
+                </div>
+            </div>
+
+            <div class="card-item">
+                <span class="card-badge">DEDIKASI OSIS</span>
+                <h3 class="card-title">Sekretaris I OSIS 2024/2025</h3>
+                <p class="card-desc">Piagam penghargaan dedikasi kepengurusan OSIS SMAK Suria Atambua.</p>
+                <div class="card-footer">
+                    <span>Periode 2024-2025</span>
+                    <button class="btn-view-cert" onclick="openModal('cert-osis.jpeg')">Lihat Bukti</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Tech Stack -->
+        <div id="tech-tab" class="tab-content">
+            <div class="tech-grid" style="grid-column: 1 / -1;">
+                <div class="tech-item"><i class="fab fa-html5"></i><p>HTML5</p></div>
+                <div class="tech-item"><i class="fab fa-css3-alt"></i><p>CSS3</p></div>
+                <div class="tech-item"><i class="fab fa-js"></i><p>JavaScript</p></div>
+                <div class="tech-item"><i class="fab fa-github"></i><p>Git / GitHub</p></div>
+                <div class="tech-item"><i class="fas fa-robot"></i><p>Gemini AI</p></div>
+                <div class="tech-item"><i class="fas fa-file-word"></i><p>MS Office</p></div>
+                <div class="tech-item"><i class="fas fa-palette"></i><p>Canva</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <span class="badge-tag">GET IN TOUCH</span>
+            <h2 style="font-size: 2.2rem; font-weight: 800;">Let's Work Together</h2>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-form">
+                <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 20px;">Kirim Pesan Directly</h3>
+                <form onsubmit="alert('Pesan berhasil terkirim!'); return false;">
+                    <div class="form-group">
+                        <label>Nama Anda</label>
+                        <input type="text" class="form-input" placeholder="Masukkan nama kamu" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Anda</label>
+                        <input type="email" class="form-input" placeholder="email@contoh.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Pesan</label>
+                        <textarea class="form-input" placeholder="Tuliskan pesan kamu di sini..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; cursor: pointer;">
+                        <i class="fas fa-paper-plane"></i> Kirim Pesan
+                    </button>
+                </form>
+            </div>
+
+            <div class="guestbook-card">
+                <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 10px;">Find & Connect</h3>
+                <p style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 20px;">Temukan saya di media sosial dan jaringan profesional berikut:</p>
+                
+                <div class="social-links">
+                    <a href="mailto:verenahale5@gmail.com" class="social-btn">
+                        <i class="fas fa-envelope" style="color: #ea4335;"></i>
+                        <span>verenahale5@gmail.com</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/verena-welisda-tan-pires-hale-b48770437?" target="_blank" class="social-btn">
+                        <i class="fab fa-linkedin" style="color: #0a66c2;"></i>
+                        <span>LinkedIn Profile</span>
+                    </a>
+                    <a href="https://github.com" target="_blank" class="social-btn">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub Profile</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal View Sertifikat -->
+    <div class="modal-overlay" id="cert-modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <img id="modal-img" src="" alt="Bukti Sertifikat">
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Verena Welisda Tan Pires Hale • S1 Sistem Informasi UNESA. All rights reserved.</p>
+    </footer>
+
+    <!-- JS -->
+    <script>
+        // Space Canvas
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const stars = Array.from({ length: 150 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 1.8,
+            speed: Math.random() * 0.5 + 0.1,
+            opacity: Math.random()
+        }));
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+                star.y -= star.speed;
+                if (star.y < 0) { star.y = canvas.height; star.x = Math.random() * canvas.width; }
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+
+        // Loader
+        let percent = 0;
+        const loaderBar = document.getElementById('loader-bar');
+        const loaderPercent = document.getElementById('loader-percent');
+        const loader = document.getElementById('loader');
+
+        const interval = setInterval(() => {
+            percent += 2;
+            loaderBar.style.width = percent + '%';
+            loaderPercent.innerText = percent + '%';
+            if (percent >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    loader.style.visibility = 'hidden';
+                }, 300);
+            }
+        }, 30);
+
+        // Music
+        function toggleAudio() {
+            const audio = document.getElementById('bg-audio');
+            const playIcon = document.getElementById('play-icon');
+            if (audio.paused) {
+                audio.play();
+                playIcon.className = 'fas fa-pause';
+            } else {
+                audio.pause();
+                playIcon.className = 'fas fa-play';
+            }
+        }
+
+        // Tabs
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+        }
+
+        // Modal View Sertifikat
+        function openModal(imgSrc) {
+            document.getElementById('modal-img').src = imgSrc;
+            document.getElementById('cert-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('cert-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
